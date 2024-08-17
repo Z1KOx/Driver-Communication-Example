@@ -1,0 +1,62 @@
+;
+; Driver-Communication-Example.inf
+;
+
+[Version]
+Signature   = "$WINDOWS NT$"
+Class       = System ; TODO: specify appropriate Class
+ClassGuid   = {4d36e97d-e325-11ce-bfc1-08002be10318} ; TODO: specify appropriate ClassGuid
+Provider    = %ManufacturerName%
+CatalogFile = Driver-Communication-Example.cat
+DriverVer   = ; TODO: set DriverVer in stampinf property pages
+PnpLockdown = 1
+
+[DestinationDirs]
+DefaultDestDir = 13
+
+[SourceDisksNames]
+1 = %DiskName%,,,""
+
+[SourceDisksFiles]
+Driver-Communication-Example.sys = 1,,
+
+;*****************************************
+; Install Section
+;*****************************************
+
+[Manufacturer]
+%ManufacturerName% = Standard,NT$ARCH$.10.0...16299 ; %13% support introduced in build 16299
+
+[Standard.NT$ARCH$.10.0...16299]
+%Driver-Communication-Example.DeviceDesc% = Driver-Communication-Example_Device, Root\Driver-Communication-Example ; TODO: edit hw-id
+
+[Driver-Communication-Example_Device.NT]
+CopyFiles = File_Copy
+
+[File_Copy]
+Driver-Communication-Example.sys
+
+;-------------- Service installation
+[Driver-Communication-Example_Device.NT.Services]
+AddService = Driver-Communication-Example,%SPSVCINST_ASSOCSERVICE%, Driver-Communication-Example_Service_Inst
+
+; -------------- Driver-Communication-Example driver install sections
+[Driver-Communication-Example_Service_Inst]
+DisplayName    = %Driver-Communication-Example.SVCDESC%
+ServiceType    = 1               ; SERVICE_KERNEL_DRIVER
+StartType      = 3               ; SERVICE_DEMAND_START
+ErrorControl   = 1               ; SERVICE_ERROR_NORMAL
+ServiceBinary  = %13%\Driver-Communication-Example.sys
+
+[Driver-Communication-Example_Device.NT.Wdf]
+KmdfService = Driver-Communication-Example, Driver-Communication-Example_wdfsect
+
+[Driver-Communication-Example_wdfsect]
+KmdfLibraryVersion = $KMDFVERSION$
+
+[Strings]
+SPSVCINST_ASSOCSERVICE = 0x00000002
+ManufacturerName = "<Your manufacturer name>" ;TODO: Replace with your manufacturer name
+DiskName = "Driver-Communication-Example Installation Disk"
+Driver-Communication-Example.DeviceDesc = "Driver-Communication-Example Device"
+Driver-Communication-Example.SVCDESC = "Driver-Communication-Example Service"
