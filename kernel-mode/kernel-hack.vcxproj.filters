@@ -19,32 +19,32 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <Inf Include="Driver-Communication-Example.inf">
+    <Inf Include="kernel-hack.inf">
       <Filter>Driver Files</Filter>
     </Inf>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="communication.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="entry.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="events.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="communication.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="communication.h">
+    <ClInclude Include="entry.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="entry.h">
+    <ClInclude Include="events.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="data.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="events.h">
+    <ClInclude Include="communication.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

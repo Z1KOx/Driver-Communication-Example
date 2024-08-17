@@ -2,17 +2,17 @@
 #include "data.h"
 
 //	Handles IOCTL requests for the device.
-NTSTATUS ioControl(PDEVICE_OBJECT deviceObject,
-	PIRP irp)
+NTSTATUS ioControl( PDEVICE_OBJECT deviceObject,
+	                PIRP irp )
 {
-	UNREFERENCED_PARAMETER(deviceObject);
+	UNREFERENCED_PARAMETER( deviceObject );
 
 	//	Initialize status as unsuccessful; will be set to successful if the operation is completed correctly.
 	NTSTATUS status = STATUS_UNSUCCESSFUL;
 	ULONG byteIO = 0;
 
 	//  Retrieves the current stack location for the IRP, which contains the parameters for the I/O request from the user-mode program.
-	PIO_STACK_LOCATION stack = IoGetCurrentIrpStackLocation(irp);
+	PIO_STACK_LOCATION stack = IoGetCurrentIrpStackLocation( irp );
 
 	//	Retrieves the IOCTL code from the current stack location, which specifies the type of control operation requested by the user-mode program.
 	ULONG controlCode = stack->Parameters.DeviceIoControl.IoControlCode;
@@ -25,12 +25,12 @@ NTSTATUS ioControl(PDEVICE_OBJECT deviceObject,
 		//	Write the address of the executable `AssaultCubeClientAddress` into the user-mode buffer.
 		*output = AssaultCubeClientAddress;
 
-		DbgPrintEx(0, 0, "[user-mode] executable Assaultcube address requested");
+		DbgPrintEx( 0, 0, "[user-mode] executable Assaultcube address requested" );
 
 		//	Set status to success.
 		status = STATUS_SUCCESS;
 		//	Set the number of bytes transferred to the size of the output buffer.
-		byteIO = sizeof(*output);
+		byteIO = sizeof( *output );
 	}
 	else {
 		byteIO = 0;
@@ -42,16 +42,16 @@ NTSTATUS ioControl(PDEVICE_OBJECT deviceObject,
 	irp->IoStatus.Information = byteIO;
 
 	//	Complete the I/O request, marking it as finished.
-	IoCompleteRequest(irp, IO_NO_INCREMENT);
+	IoCompleteRequest( irp, IO_NO_INCREMENT );
 
 	return status;
 }
 
 //	Handles a CLOSE request for the device.
-NTSTATUS closeCall(PDEVICE_OBJECT deviceObject,
-	PIRP irp)
+NTSTATUS closeCall( PDEVICE_OBJECT deviceObject, 
+	                PIRP irp )
 {
-	UNREFERENCED_PARAMETER(deviceObject);
+	UNREFERENCED_PARAMETER( deviceObject );
 
 	//	Set status to success.
 	irp->IoStatus.Status = STATUS_SUCCESS;
@@ -59,18 +59,18 @@ NTSTATUS closeCall(PDEVICE_OBJECT deviceObject,
 	irp->IoStatus.Information = 0;
 
 	//	Complete the I/O request, marking it as finished.
-	IoCompleteRequest(irp, IO_NO_INCREMENT);
+	IoCompleteRequest( irp, IO_NO_INCREMENT );
 
-	DbgPrintEx(0, 0, "CLOSE I/O Requests");
+	DbgPrintEx( 0, 0, "CLOSE I/O Requests" );
 
 	return STATUS_SUCCESS;
 }
 
 //	Handles a CREATE request for the device.
-NTSTATUS createCall(PDEVICE_OBJECT deviceObject,
-	PIRP irp)
+NTSTATUS createCall( PDEVICE_OBJECT deviceObject,
+	                 PIRP irp )
 {
-	UNREFERENCED_PARAMETER(deviceObject);
+	UNREFERENCED_PARAMETER( deviceObject );
 
 	//	Set status to success.
 	irp->IoStatus.Status = STATUS_SUCCESS;
@@ -78,9 +78,9 @@ NTSTATUS createCall(PDEVICE_OBJECT deviceObject,
 	irp->IoStatus.Information = 0;
 
 	//	Complete the I/O request, marking it as finished.
-	IoCompleteRequest(irp, IO_NO_INCREMENT);
+	IoCompleteRequest( irp, IO_NO_INCREMENT );
 
-	DbgPrintEx(0, 0, "CREATE I/O Requests");
+	DbgPrintEx( 0, 0, "CREATE I/O Requests" );
 
 	return STATUS_SUCCESS;
 }

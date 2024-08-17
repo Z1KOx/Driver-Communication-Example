@@ -5,42 +5,42 @@
 #include "events.h"
 #include "communication.h"
 
-NTSTATUS DriverEntry(PDRIVER_OBJECT pDriverObject,
-	PUNICODE_STRING pRegistryPath)
+NTSTATUS DriverEntry( PDRIVER_OBJECT pDriverObject,
+	                  PUNICODE_STRING pRegistryPath )
 {
-	UNREFERENCED_PARAMETER(pRegistryPath);
+	UNREFERENCED_PARAMETER( pRegistryPath );
 
 	// Set the function to be called when the driver is unloaded for cleanup tasks.
 	pDriverObject->DriverUnload = UnloadDriver;
 
-	DbgPrintEx(0, 0, "Load Driver");
+	DbgPrintEx( 0, 0, "Load Driver" );
 
-	//	This function registers the `ImageLoadCallback` function.
+    //	This function registers the `ImageLoadCallback` function.
 	//	ImageLoadCallBack gets called by the system whenever any dll or executable is loaded into a process.
 	//	In this callback, we check if a specific executable is loaded and take action if it is.
-	PsSetLoadImageNotifyRoutine(ImageLoadCallback);
+	PsSetLoadImageNotifyRoutine( ImageLoadCallback );
 
 	//	Initializes the `dev` variable with the Unicode string representing the device name `\\Device\\Z1KODriver`.
-	RtlInitUnicodeString(&dev, L"\\Device\\Z1KODriver");
+	RtlInitUnicodeString( &dev, L"\\Device\\Z1KODriver" );
 
 	//	Initializes the `dos` variable with the Unicode string representing the symbolic link name `\\DosDevices\\Z1KODriver`.
 	//	This symbolic link allows user-mode applications to access the device using this name.
-	RtlInitUnicodeString(&dos, L"\\DosDevices\\Z1KODriver");
+	RtlInitUnicodeString( &dos, L"\\DosDevices\\Z1KODriver" );
 
 	//	Creates a new device object for the driver.
 	//	More infos of the parameters you can find here: https://learn.microsoft.com/en-us/windows-hardware/drivers/ddi/wdm/nf-wdm-iocreatedevice
-	IoCreateDevice(pDriverObject,
-		0,
-		&dev,
-		FILE_DEVICE_UNKNOWN,
-		FILE_DEVICE_SECURE_OPEN,
-		FALSE,
-		&pDeviceObject);
+	IoCreateDevice( pDriverObject,
+		            0,
+		            &dev,
+		            FILE_DEVICE_UNKNOWN,
+		            FILE_DEVICE_SECURE_OPEN,
+		            FALSE,
+		            &pDeviceObject );
 
 	//	Creates a symbolic link between the user-mode path (`\\DosDevices\\Z1KODriver`)
 	//	and the kernel-mode device path (`\\Device\\Z1KODriver`).
 	//	This allows user-mode applications to access the device using the user-mode path.
-	IoCreateSymbolicLink(&dos, &dev);
+	IoCreateSymbolicLink( &dos, &dev );
 
 	//	Set the driver's major function pointers for handling different types of I/O requests.
 	//	- `IRP_MJ_CREATE`: Function to handle requests to open or create a handle to the device.
@@ -58,20 +58,20 @@ NTSTATUS DriverEntry(PDRIVER_OBJECT pDriverObject,
 	return STATUS_SUCCESS;
 }
 
-NTSTATUS UnloadDriver(PDRIVER_OBJECT pDriverObject)
+NTSTATUS UnloadDriver( PDRIVER_OBJECT pDriverObject )
 {
-	UNREFERENCED_PARAMETER(pDriverObject);
+	UNREFERENCED_PARAMETER( pDriverObject );
 
-	DbgPrintEx(0, 0, "Unload Driver");
+	DbgPrintEx( 0, 0, "Unload Driver" );
 
 	//	This stops the system from calling the ImageLoadCallback function when modules (executables or DLLs) are loaded.
-	PsRemoveLoadImageNotifyRoutine(ImageLoadCallback);
+	PsRemoveLoadImageNotifyRoutine( ImageLoadCallback );
 
 	//	This removes the user-mode path used to access the device object, so no further requests can be sent to it.
-	IoDeleteSymbolicLink(&dos);
+	IoDeleteSymbolicLink( &dos );
 
 	//	This removes the device object created for the driver and frees all associated resources.
-	IoDeleteDevice(pDriverObject->DeviceObject);
+	IoDeleteDevice( pDriverObject->DeviceObject );
 
 	return STATUS_SUCCESS;
 }
