@@ -15,7 +15,7 @@ NTSTATUS DriverEntry( PDRIVER_OBJECT pDriverObject,
 
 	DbgPrintEx( 0, 0, "Load Driver" );
 
-    //	This function registers the `ImageLoadCallback` function.
+	//	This function registers the `ImageLoadCallback` function.
 	//	ImageLoadCallBack gets called by the system whenever any dll or executable is loaded into a process.
 	//	In this callback, we check if a specific executable is loaded and take action if it is.
 	PsSetLoadImageNotifyRoutine( ImageLoadCallback );

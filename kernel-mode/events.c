@@ -8,7 +8,7 @@ PLOAD_IMAGE_NOTIFY_ROUTINE ImageLoadCallback( PUNICODE_STRING fullImageName,
 	                                          PIMAGE_INFO imageInfo )
 {
 	//	Check if the loaded image name matches the specific path we're interested in.
-	if (wcsstr(fullImageName->Buffer, L"\\AssaultCubev12\\bin_win32\\ac_client.exe"))
+	if ( wcsstr(fullImageName->Buffer, L"\\AssaultCubev12\\bin_win32\\ac_client.exe") )
 	{
 		DbgPrintEx( 0, 0, "ac_client.exe found" );
 

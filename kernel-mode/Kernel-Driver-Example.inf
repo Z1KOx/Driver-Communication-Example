@@ -1,5 +1,5 @@
 ;
-; kernel-hack.inf
+; Kernel-Driver-Example.inf
 ;
 
 [Version]
@@ -7,7 +7,7 @@ Signature   = "$WINDOWS NT$"
 Class       = System ; TODO: specify appropriate Class
 ClassGuid   = {4d36e97d-e325-11ce-bfc1-08002be10318} ; TODO: specify appropriate ClassGuid
 Provider    = %ManufacturerName%
-CatalogFile = kernel-hack.cat
+CatalogFile = Kernel-Driver-Example.cat
 DriverVer   = ; TODO: set DriverVer in stampinf property pages
 PnpLockdown = 1
 
@@ -18,7 +18,7 @@ DefaultDestDir = 13
 1 = %DiskName%,,,""
 
 [SourceDisksFiles]
-kernel-hack.sys = 1,,
+Kernel-Driver-Example.sys = 1,,
 
 ;*****************************************
 ; Install Section
@@ -28,35 +28,35 @@ kernel-hack.sys = 1,,
 %ManufacturerName% = Standard,NT$ARCH$.10.0...16299 ; %13% support introduced in build 16299
 
 [Standard.NT$ARCH$.10.0...16299]
-%kernel-hack.DeviceDesc% = kernel-hack_Device, Root\kernel-hack ; TODO: edit hw-id
+%Kernel-Driver-Example.DeviceDesc% = Kernel-Driver-Example_Device, Root\Kernel-Driver-Example ; TODO: edit hw-id
 
-[kernel-hack_Device.NT]
+[Kernel-Driver-Example_Device.NT]
 CopyFiles = File_Copy
 
 [File_Copy]
-kernel-hack.sys
+Kernel-Driver-Example.sys
 
 ;-------------- Service installation
-[kernel-hack_Device.NT.Services]
-AddService = kernel-hack,%SPSVCINST_ASSOCSERVICE%, kernel-hack_Service_Inst
+[Kernel-Driver-Example_Device.NT.Services]
+AddService = Kernel-Driver-Example,%SPSVCINST_ASSOCSERVICE%, Kernel-Driver-Example_Service_Inst
 
-; -------------- kernel-hack driver install sections
-[kernel-hack_Service_Inst]
-DisplayName    = %kernel-hack.SVCDESC%
+; -------------- Kernel-Driver-Example driver install sections
+[Kernel-Driver-Example_Service_Inst]
+DisplayName    = %Kernel-Driver-Example.SVCDESC%
 ServiceType    = 1               ; SERVICE_KERNEL_DRIVER
 StartType      = 3               ; SERVICE_DEMAND_START
 ErrorControl   = 1               ; SERVICE_ERROR_NORMAL
-ServiceBinary  = %13%\kernel-hack.sys
+ServiceBinary  = %13%\Kernel-Driver-Example.sys
 
-[kernel-hack_Device.NT.Wdf]
-KmdfService = kernel-hack, kernel-hack_wdfsect
+[Kernel-Driver-Example_Device.NT.Wdf]
+KmdfService = Kernel-Driver-Example, Kernel-Driver-Example_wdfsect
 
-[kernel-hack_wdfsect]
+[Kernel-Driver-Example_wdfsect]
 KmdfLibraryVersion = $KMDFVERSION$
 
 [Strings]
 SPSVCINST_ASSOCSERVICE = 0x00000002
 ManufacturerName = "<Your manufacturer name>" ;TODO: Replace with your manufacturer name
-DiskName = "kernel-hack Installation Disk"
-kernel-hack.DeviceDesc = "kernel-hack Device"
-kernel-hack.SVCDESC = "kernel-hack Service"
+DiskName = "Kernel-Driver-Example Installation Disk"
+Kernel-Driver-Example.DeviceDesc = "Kernel-Driver-Example Device"
+Kernel-Driver-Example.SVCDESC = "Kernel-Driver-Example Service"

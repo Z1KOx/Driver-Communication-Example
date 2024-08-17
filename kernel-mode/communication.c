@@ -18,19 +18,19 @@ NTSTATUS ioControl( PDEVICE_OBJECT deviceObject,
 	ULONG controlCode = stack->Parameters.DeviceIoControl.IoControlCode;
 
 	//	If the user-mode program requested the executable address (which has the identifier 0x1337) handle the request.
-	if (controlCode == IO_GET_EXECUTABLE_ADDRESS)
+	if ( controlCode == IO_GET_EXECUTABLE_ADDRESS )
 	{
 		//	Access the user-mode program buffer
 		PULONG output = (PULONG)irp->AssociatedIrp.SystemBuffer;
 		//	Write the address of the executable `AssaultCubeClientAddress` into the user-mode buffer.
 		*output = AssaultCubeClientAddress;
 
-		DbgPrintEx( 0, 0, "[user-mode] executable Assaultcube address requested" );
+		DbgPrintEx( 0, 0, "[user-mode] Executable Assaultcube address requested" );
 
 		//	Set status to success.
 		status = STATUS_SUCCESS;
 		//	Set the number of bytes transferred to the size of the output buffer.
-		byteIO = sizeof( *output );
+		byteIO = sizeof(*output);
 	}
 	else {
 		byteIO = 0;
@@ -48,7 +48,7 @@ NTSTATUS ioControl( PDEVICE_OBJECT deviceObject,
 }
 
 //	Handles a CLOSE request for the device.
-NTSTATUS closeCall( PDEVICE_OBJECT deviceObject, 
+NTSTATUS closeCall( PDEVICE_OBJECT deviceObject,
 	                PIRP irp )
 {
 	UNREFERENCED_PARAMETER( deviceObject );
