@@ -58,7 +58,7 @@ Load Driver
 ac_client.exe found
 ProcessID: 31548
 CREATE I/O Requests
-[user-mode] executable Assaultcube address requested
+[user-mode] Executable Assaultcube address requested
 CLOSE I/O Requests
 Unload Driver
 ```
