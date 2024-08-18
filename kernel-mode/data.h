@@ -2,6 +2,6 @@
 
 #include "ntdef.h"
 
-ULONG AssaultCubeClientAddress;
+ULONG AssaultCubeClientAddress, processID;
 PDEVICE_OBJECT pDeviceObject;
 UNICODE_STRING dev, dos;

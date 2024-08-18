@@ -1,10 +1,10 @@
-#pragma warning (disable : 4047)
+#pragma warning (disable : 4047 4311)
 
 #include "events.h"
 #include "data.h"
 
 PLOAD_IMAGE_NOTIFY_ROUTINE ImageLoadCallback( PUNICODE_STRING fullImageName,
-	                                          HANDLE processID,
+	                                          HANDLE ProcessID,
 	                                          PIMAGE_INFO imageInfo )
 {
 	//	Check if the loaded image name matches the specific path we're interested in.
@@ -14,6 +14,7 @@ PLOAD_IMAGE_NOTIFY_ROUTINE ImageLoadCallback( PUNICODE_STRING fullImageName,
 
 		//	Store the base address of the loaded image into the `AssaultCubeClientAddress` variable.
 		AssaultCubeClientAddress = imageInfo->ImageBase;
+		processID = (ULONG)ProcessID;
 
 		DbgPrintEx( 0, 0, "ProcessID: %d", processID );
 	}
