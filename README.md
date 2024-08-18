@@ -59,6 +59,9 @@ ac_client.exe found
 ProcessID: 31548
 CREATE I/O Requests
 [user-mode] Executable Assaultcube address requested
+[user-mode] ProcessID requested
+[user-mode] Read requested
+[user-mode] Write requested
 CLOSE I/O Requests
 Unload Driver
 ```
